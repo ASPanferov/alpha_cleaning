@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Alpha Services</title>
+    <meta name="description" content="Alpha Services - многосервисная платформа бытовых услуг. Узнайте о нашей истории, команде и ценностях. Умные технологии для вашего дома.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-cyan: #05d3fb;
+            --primary-dark: #1b4667;
+            --secondary-blue: #51849c;
+            --text-gray: #7c94a4;
+            --light-gray: #cdd1d2;
+            --dark-gray: #484848;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --surface-hover: #e9ecef;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-blue) 100%);
+            --gradient-hero: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 70%);
+            
+            --shadow-sm: 0 2px 4px rgba(27, 70, 103, 0.1);
+            --shadow-md: 0 4px 16px rgba(27, 70, 103, 0.15);
+            --shadow-lg: 0 8px 32px rgba(27, 70, 103, 0.2);
+            --shadow-xl: 0 16px 48px rgba(27, 70, 103, 0.25);
+            
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            --transition-normal: 0.3s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Базовые стили */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: var(--font-size-5xl); }
+        h2 { font-size: var(--font-size-4xl); }
+        h3 { font-size: var(--font-size-3xl); }
+        h4 { font-size: var(--font-size-2xl); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            font-size: var(--font-size-base);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 16px 32px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-normal);
+            line-height: 1;
+            min-height: 48px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-ghost {
+            background: rgba(5, 211, 251, 0.1);
+            color: var(--primary-cyan);
+            border: 1px solid rgba(5, 211, 251, 0.2);
+        }
+
+        /* Хедер */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(27, 70, 103, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            min-height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 4px;
+            background: var(--primary-cyan);
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .logo-text {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-cyan);
+        }
+
+        .nav-link.active {
+            color: var(--primary-dark);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        /* Hero секция */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 120px 0 80px 0;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect fill="url(%23pattern)" width="100%" height="100%"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: var(--font-size-xl);
+            margin-bottom: 3rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Секции */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: var(--font-size-4xl);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* История */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--gradient-primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: var(--radius-full);
+        }
+
+        .timeline-item {
+            padding: 2rem 3rem;
+            position: relative;
+            background: white;
+            border-radius: var(--radius-lg);
+            width: calc(50% - 2rem);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-cyan);
+            border: 4px solid white;
+            top: 2rem;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.left::after {
+            right: -52px;
+        }
+
+        .timeline-item.right {
+            left: calc(50% + 2rem);
+        }
+
+        .timeline-item.right::after {
+            left: -52px;
+        }
+
+        .timeline-year {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            color: var(--primary-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .timeline-description {
+            color: var(--text-gray);
+        }
+
+        /* Команда */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem auto;
+            font-size: 3rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .team-name {
+            font-size: var(--font-size-xl);
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .team-position {
+            color: var(--primary-cyan);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-description {
+            color: var(--text-gray);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Ценности */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border-top: 4px solid var(--primary-cyan);
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(5, 211, 251, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 2rem;
+        }
+
+        .value-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .value-description {
+            color: var(--text-gray);
+        }
+
+        /* Статистика */
+        .stats {
+            background: var(--surface);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-5xl);
+            font-weight: 800;
+            color: var(--primary-cyan);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: var(--font-size-base);
+        }
+
+        /* CTA секция */
+        .cta {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 100px 0 60px 0;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .timeline::after {
+                left: 2rem;
+            }
+
+            .timeline-item {
+                width: calc(100% - 4rem);
+                margin-left: 4rem;
+            }
+
+            .timeline-item.right {
+                left: 4rem;
+            }
+
+            .timeline-item::after {
+                left: -52px;
+            }
+
+            .timeline-item.right::after {
+                left: -52px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding: 80px 0 40px 0;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            .timeline-item {
+                padding: 1.5rem;
+                margin-left: 3rem;
+                width: calc(100% - 3rem);
+            }
+
+            .timeline::after {
+                left: 1.5rem;
+            }
+
+            .team-member {
+                padding: 2rem 1.5rem;
+            }
+
+            .value-card {
+                padding: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Анимации */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">ALPHA SERVICES</span>
+                </a>
+                
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="index.html" class="nav-link">Главная</a></li>
+                        <li><a href="services.html" class="nav-link">Услуги</a></li>
+                        <li><a href="map.html" class="nav-link">Пункты приема</a></li>
+                        <li><a href="cabinet.html" class="nav-link">Личный кабинет</a></li>
+                        <li><a href="about.html" class="nav-link active">О нас</a></li>
+                    </ul>
+                    
+                    <div class="nav-actions">
+                        <a href="cabinet.html" class="btn btn-ghost">Войти</a>
+                        <a href="cabinet.html" class="btn btn-primary">Заказать</a>
+                    </div>
+                </nav>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    ☰
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-element">
+                <h1>О компании Alpha Services</h1>
+                <p>Многосервисная платформа бытовых услуг, которая объединила технологии, качество и удобство для современного дома</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наша миссия -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Наша миссия</h2>
+                <p class="section-subtitle">Сделать бытовые услуги для дома доступными и удобными через единую платформу с технологией умных почтоматов</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">🎯</div>
+                    <h3 class="value-title">Качество</h3>
+                    <p class="value-description">Используем профессиональное оборудование и проверенные технологии для достижения идеального результата во всех сферах услуг</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">⚡</div>
+                    <h3 class="value-title">Удобство</h3>
+                    <p class="value-description">Сеть умных почтоматов по всему городу - заказывайте услуги и получайте результат в удобных точках</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">🌱</div>
+                    <h3 class="value-title">Экология</h3>
+                    <p class="value-description">Используем экологичные подходы и материалы во всех услугах, заботясь о здоровье и окружающей среде</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">💎</div>
+                    <h3 class="value-title">Инновации</h3>
+                    <p class="value-description">Постоянно расширяем спектр услуг и внедряем инновации для создания экосистемы бытового сервиса</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- История компании -->
+    <section class="section" style="background: var(--surface);">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Наша история</h2>
+                <p class="section-subtitle">Путь от идеи прачечной до многосервисной платформы бытовых услуг</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item left fade-in-element">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-title">Основание компании</div>
+                    <p class="timeline-description">Запуск прачечной услуги с инновационной системой QR-кодов и умных почтоматов для приема заказов</p>
+                </div>
+                
+                <div class="timeline-item right fade-in-element">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-title">Расширение сети</div>
+                    <p class="timeline-description">Установка 15 умных почтоматов в торговых центрах и жилых комплексах города</p>
+                </div>
+                
+                <div class="timeline-item left fade-in-element">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-title">Экологическая инициатива</div>
+                    <p class="timeline-description">Внедрение экологичных стандартов для всех услуг и программы устойчивого развития</p>
+                </div>
+                
+                <div class="timeline-item right fade-in-element">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-title">Технологический прорыв</div>
+                    <p class="timeline-description">Запуск мобильного приложения и платформы для интеграции различных видов бытовых услуг</p>
+                </div>
+                
+                <div class="timeline-item left fade-in-element">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-title">Многосервисная платформа</div>
+                    <p class="timeline-description">Расширение до 50+ точек и подготовка к запуску услуг электриков, сантехников и других мастеров</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Команда -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Наша команда</h2>
+                <p class="section-subtitle">Профессионалы, которые создают будущее бытовых услуг</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member fade-in-element">
+                    <div class="team-avatar">А</div>
+                    <h3 class="team-name">Анна Петрова</h3>
+                    <p class="team-position">Основатель и CEO</p>
+                    <p class="team-description">15 лет опыта в сфере услуг и управления. Визионер компании, создавший многосервисную платформу будущего.</p>
+                </div>
+                
+                <div class="team-member fade-in-element">
+                    <div class="team-avatar">М</div>
+                    <h3 class="team-name">Максим Королев</h3>
+                    <p class="team-position">Технический директор</p>
+                    <p class="team-description">Эксперт по автоматизации и IoT-решениям. Создатель системы умных почтоматов и платформенной архитектуры.</p>
+                </div>
+                
+                <div class="team-member fade-in-element">
+                    <div class="team-avatar">Е</div>
+                    <h3 class="team-name">Елена Смирнова</h3>
+                    <p class="team-position">Руководитель качества</p>
+                    <p class="team-description">Эксперт по стандартам качества услуг. Разрабатывает процедуры и контролирует качество всех видов услуг на платформе.</p>
+                </div>
+                
+                <div class="team-member fade-in-element">
+                    <div class="team-avatar">И</div>
+                    <h3 class="team-name">Игорь Волков</h3>
+                    <p class="team-position">Директор по развитию</p>
+                    <p class="team-description">Расширяет сеть почтоматов, привлекает новых поставщиков услуг и развивает партнерскую экосистему.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистика -->
+    <section class="section stats">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Alpha Services в цифрах</h2>
+                <p class="section-subtitle">Результаты нашей работы говорят сами за себя</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat fade-in-element">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Умных почтоматов</span>
+                </div>
+                <div class="stat fade-in-element">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Довольных клиентов</span>
+                </div>
+                <div class="stat fade-in-element">
+                    <span class="stat-number">100K+</span>
+                    <span class="stat-label">Обработанных заказов</span>
+                </div>
+                <div class="stat fade-in-element">
+                    <span class="stat-number">4.9</span>
+                    <span class="stat-label">Рейтинг в App Store</span>
+                </div>
+                <div class="stat fade-in-element">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Поддержка клиентов</span>
+                </div>
+                <div class="stat fade-in-element">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Клиентов рекомендуют нас</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Сертификаты и награды -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Сертификаты и награды</h2>
+                <p class="section-subtitle">Наше качество подтверждено международными стандартами</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">🏆</div>
+                    <h3 class="value-title">Лучший сервис 2023</h3>
+                    <p class="value-description">Премия "Выбор потребителей" в номинации "Лучший клининговый сервис"</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">✅</div>
+                    <h3 class="value-title">ISO 9001:2015</h3>
+                    <p class="value-description">Международный стандарт системы менеджмента качества</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">🌿</div>
+                    <h3 class="value-title">Eco-Friendly</h3>
+                    <p class="value-description">Сертификат экологической безопасности используемых средств</p>
+                </div>
+                
+                <div class="value-card fade-in-element">
+                    <div class="value-icon">🛡️</div>
+                    <h3 class="value-title">Страхование</h3>
+                    <p class="value-description">Все вещи застрахованы на полную стоимость на время обработки</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA секция -->
+    <section class="section cta">
+        <div class="container">
+            <div class="fade-in-element" style="text-align: center;">
+                <h2>Присоединяйтесь к Alpha Services</h2>
+                <p>Станьте частью сообщества довольных клиентов, которые используют наши умные решения для дома</p>
+                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+                    <a href="services.html" class="btn btn-primary">
+                        🚀 Попробовать сейчас
+                    </a>
+                    <a href="map.html" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3);">
+                        📍 Найти пункт приема
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Эффект скролла для хедера
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Анимация появления элементов при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдение за всеми элементами с классом fade-in-element
+        document.querySelectorAll('.fade-in-element').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

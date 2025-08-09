@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта почтоматов - Alpha Services</title>
+    <meta name="description" content="Найдите ближайший умный почтомат Alpha Services на интерактивной карте. Более 50 локаций по всему городу.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-cyan: #05d3fb;
+            --primary-dark: #1b4667;
+            --secondary-blue: #51849c;
+            --text-gray: #7c94a4;
+            --light-gray: #cdd1d2;
+            --dark-gray: #484848;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --surface-hover: #e9ecef;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-blue) 100%);
+            --gradient-hero: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 70%);
+            
+            --shadow-sm: 0 2px 4px rgba(27, 70, 103, 0.1);
+            --shadow-md: 0 4px 16px rgba(27, 70, 103, 0.15);
+            --shadow-lg: 0 8px 32px rgba(27, 70, 103, 0.2);
+            --shadow-xl: 0 16px 48px rgba(27, 70, 103, 0.25);
+            
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+            --transition-slow: 0.5s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Базовые стили */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: var(--font-size-5xl); }
+        h2 { font-size: var(--font-size-4xl); }
+        h3 { font-size: var(--font-size-3xl); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            font-size: var(--font-size-base);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 16px 32px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            line-height: 1;
+            min-height: 48px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-ghost {
+            background: rgba(5, 211, 251, 0.1);
+            color: var(--primary-cyan);
+            border: 1px solid rgba(5, 211, 251, 0.2);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: var(--font-size-sm);
+            min-height: 36px;
+        }
+
+        /* Хедер */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(27, 70, 103, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            min-height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 4px;
+            background: var(--primary-cyan);
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .logo-text {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-cyan);
+        }
+
+        .nav-link.active {
+            color: var(--primary-dark);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid rgba(27, 70, 103, 0.1);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav {
+            padding: 2rem;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .mobile-nav-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Основной контент */
+        .main-content {
+            display: flex;
+            height: calc(100vh - 80px);
+            margin-top: 80px;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-right: 1px solid var(--surface-hover);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Поиск */
+        .search-section {
+            padding: 2rem;
+            border-bottom: 1px solid var(--surface-hover);
+        }
+
+        .search-title {
+            font-size: var(--font-size-xl);
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .search-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 2px solid var(--surface-hover);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            background: var(--surface);
+            position: relative;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+            background: white;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-input-wrapper::before {
+            content: '🔍';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            z-index: 2;
+        }
+
+        /* Фильтры */
+        .filters {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+
+        .filter-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: var(--font-size-sm);
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-tag {
+            padding: 6px 12px;
+            background: var(--surface);
+            color: var(--text-gray);
+            border: 1px solid var(--surface-hover);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            font-size: var(--font-size-xs);
+        }
+
+        .filter-tag.active,
+        .filter-tag:hover {
+            background: var(--primary-cyan);
+            color: white;
+            border-color: var(--primary-cyan);
+        }
+
+        /* Список пунктов */
+        .locations-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .location-item {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--surface-hover);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+        }
+
+        .location-item:hover {
+            background: var(--surface);
+        }
+
+        .location-item.active {
+            background: rgba(5, 211, 251, 0.1);
+            border-left: 4px solid var(--primary-cyan);
+        }
+
+        .location-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-address {
+            color: var(--text-gray);
+            font-size: var(--font-size-sm);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-distance {
+            color: var(--primary-cyan);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .location-services {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .location-service {
+            padding: 2px 6px;
+            background: var(--surface);
+            color: var(--text-gray);
+            border-radius: 4px;
+            font-size: var(--font-size-xs);
+        }
+
+        .location-hours {
+            margin-top: 0.5rem;
+            color: var(--text-gray);
+            font-size: var(--font-size-xs);
+        }
+
+        .location-hours.open {
+            color: #28a745;
+        }
+
+        .location-hours.closed {
+            color: #dc3545;
+        }
+
+        /* Карта */
+        .map-container {
+            flex: 1;
+            position: relative;
+            background: var(--surface);
+        }
+
+        .map {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--surface) 25%, var(--surface-hover) 25%, var(--surface-hover) 50%, var(--surface) 50%, var(--surface) 75%, var(--surface-hover) 75%);
+            background-size: 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--text-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Маркеры на карте */
+        .map-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-md);
+        }
+
+        .map-marker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .map-marker:hover {
+            transform: rotate(-45deg) scale(1.1);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+        }
+
+        .map-marker.active {
+            background: var(--gradient-secondary);
+            transform: rotate(-45deg) scale(1.2);
+            z-index: 101;
+        }
+
+        /* Позиционирование маркеров */
+        .map-marker:nth-child(1) { top: 20%; left: 15%; }
+        .map-marker:nth-child(2) { top: 30%; left: 25%; }
+        .map-marker:nth-child(3) { top: 15%; left: 40%; }
+        .map-marker:nth-child(4) { top: 45%; left: 35%; }
+        .map-marker:nth-child(5) { top: 25%; left: 55%; }
+        .map-marker:nth-child(6) { top: 60%; left: 20%; }
+        .map-marker:nth-child(7) { top: 70%; left: 45%; }
+        .map-marker:nth-child(8) { top: 55%; left: 65%; }
+        .map-marker:nth-child(9) { top: 35%; left: 75%; }
+        .map-marker:nth-child(10) { top: 80%; left: 65%; }
+
+        /* Информационная панель */
+        .location-info {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            max-width: 350px;
+            transform: translateY(100px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .location-info.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .location-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .location-info-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-gray);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-normal);
+        }
+
+        .location-info-close:hover {
+            background: var(--surface);
+            color: var(--primary-dark);
+        }
+
+        .location-info-title {
+            font-size: var(--font-size-lg);
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .location-info-address {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .location-info-services {
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info-services-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: var(--font-size-sm);
+        }
+
+        .location-info-services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .location-info-service {
+            padding: 4px 8px;
+            background: var(--surface);
+            color: var(--text-gray);
+            border-radius: 4px;
+            font-size: var(--font-size-xs);
+        }
+
+        .location-info-hours {
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info-hours-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: var(--font-size-sm);
+        }
+
+        .location-info-hours-text {
+            color: var(--text-gray);
+            font-size: var(--font-size-sm);
+        }
+
+        .location-info-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Текущее местоположение */
+        .current-location {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: white;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-md);
+            padding: 12px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .current-location:hover {
+            box-shadow: var(--shadow-lg);
+            transform: scale(1.05);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .main-content {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-hover);
+            }
+
+            .search-section {
+                padding: 1.5rem;
+            }
+
+            .locations-list {
+                max-height: none;
+            }
+
+            .location-item {
+                padding: 1rem 1.5rem;
+            }
+
+            .map-container {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .location-info {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-width: none;
+                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                transform: translateY(100%);
+            }
+
+            .location-info.active {
+                transform: translateY(0);
+            }
+
+            .current-location {
+                top: 1rem;
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .search-section {
+                padding: 1rem;
+            }
+
+            .location-item {
+                padding: 1rem;
+            }
+
+            .location-info {
+                padding: 1.5rem;
+            }
+
+            .location-info-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">ALPHA SERVICES</span>
+                </a>
+                
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="index.html" class="nav-link">Главная</a></li>
+                        <li><a href="services.html" class="nav-link">Услуги</a></li>
+                        <li><a href="map.html" class="nav-link active">Почтоматы</a></li>
+                        <li><a href="cabinet.html" class="nav-link">Личный кабинет</a></li>
+                        <li><a href="about.html" class="nav-link">О нас</a></li>
+                    </ul>
+                    
+                    <div class="nav-actions">
+                        <a href="cabinet.html" class="btn btn-ghost">Войти</a>
+                        <a href="cabinet.html" class="btn btn-primary">Заказать</a>
+                    </div>
+                </nav>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    ☰
+                </button>
+            </div>
+        </div>
+        
+        <!-- Мобильное меню -->
+        <div class="mobile-menu" id="mobile-menu">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav-links">
+                    <li><a href="index.html" class="mobile-nav-link">Главная</a></li>
+                    <li><a href="services.html" class="mobile-nav-link">Услуги</a></li>
+                    <li><a href="map.html" class="mobile-nav-link">Почтоматы</a></li>
+                    <li><a href="cabinet.html" class="mobile-nav-link">Личный кабинет</a></li>
+                    <li><a href="about.html" class="mobile-nav-link">О нас</a></li>
+                </ul>
+                
+                <div class="mobile-nav-actions">
+                    <a href="cabinet.html" class="btn btn-ghost">Войти</a>
+                    <a href="cabinet.html" class="btn btn-primary">Заказать</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <!-- Боковая панель -->
+        <div class="sidebar">
+            <!-- Поиск -->
+            <div class="search-section">
+                <h2 class="search-title">🗺️ Найти почтомат</h2>
+                
+                <div class="search-form">
+                    <div class="search-input-wrapper">
+                        <input type="text" class="search-input" placeholder="Введите адрес или район..." id="searchInput">
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Тип локации</label>
+                        <div class="filter-tags">
+                            <span class="filter-tag active" data-filter="all">Все</span>
+                            <span class="filter-tag" data-filter="mall">ТЦ</span>
+                            <span class="filter-tag" data-filter="office">БЦ</span>
+                            <span class="filter-tag" data-filter="metro">Метро</span>
+                            <span class="filter-tag" data-filter="residential">Жилые</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Услуги</label>
+                        <div class="filter-tags">
+                            <span class="filter-tag active" data-service="all">Все</span>
+                            <span class="filter-tag" data-service="laundry">Прачечная</span>
+                            <span class="filter-tag" data-service="dry-cleaning">Химчистка</span>
+                            <span class="filter-tag" data-service="ironing">Глажка</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Список пунктов -->
+            <div class="locations-list" id="locationsList">
+                <div class="location-item active" data-id="1" data-type="mall">
+                    <div class="location-name">ТЦ "Европа"</div>
+                    <div class="location-address">ул. Ленина, 45</div>
+                    <div class="location-distance">0.8 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                        <span class="location-service">Глажка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 22:00</div>
+                </div>
+
+                <div class="location-item" data-id="2" data-type="office">
+                    <div class="location-name">БЦ "Технопарк"</div>
+                    <div class="location-address">ул. Кутузова, 32</div>
+                    <div class="location-distance">1.2 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Глажка</span>
+                    </div>
+                    <div class="location-hours open">Открыто круглосуточно</div>
+                </div>
+
+                <div class="location-item" data-id="3" data-type="residential">
+                    <div class="location-name">ЖК "Green Park"</div>
+                    <div class="location-address">ул. Проспект Мира, 15</div>
+                    <div class="location-distance">1.5 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 21:00</div>
+                </div>
+
+                <div class="location-item" data-id="4" data-type="metro">
+                    <div class="location-name">Метро "Центральная"</div>
+                    <div class="location-address">Вестибюль метро</div>
+                    <div class="location-distance">2.1 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                        <span class="location-service">Глажка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 23:30</div>
+                </div>
+
+                <div class="location-item" data-id="5" data-type="mall">
+                    <div class="location-name">ТЦ "Мега Сити"</div>
+                    <div class="location-address">ул. Гагарина, 78</div>
+                    <div class="location-distance">2.8 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                        <span class="location-service">Глажка</span>
+                        <span class="location-service">Деликатная стирка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 22:00</div>
+                </div>
+
+                <div class="location-item" data-id="6" data-type="office">
+                    <div class="location-name">БЦ "Сити Центр"</div>
+                    <div class="location-address">ул. Московская, 123</div>
+                    <div class="location-distance">3.2 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                    </div>
+                    <div class="location-hours closed">Закрыто до 8:00</div>
+                </div>
+
+                <div class="location-item" data-id="7" data-type="residential">
+                    <div class="location-name">ЖК "Солнечный"</div>
+                    <div class="location-address">ул. Солнечная, 89</div>
+                    <div class="location-distance">3.5 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Глажка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 20:00</div>
+                </div>
+
+                <div class="location-item" data-id="8" data-type="mall">
+                    <div class="location-name">ТЦ "Атриум"</div>
+                    <div class="location-address">пр. Победы, 56</div>
+                    <div class="location-distance">4.1 км от вас</div>
+                    <div class="location-services">
+                        <span class="location-service">Прачечная</span>
+                        <span class="location-service">Химчистка</span>
+                        <span class="location-service">Деликатная стирка</span>
+                    </div>
+                    <div class="location-hours open">Открыто до 22:00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карта -->
+        <div class="map-container">
+            <div class="current-location" title="Найти моё местоположение">
+                📍
+            </div>
+            
+            <div class="map" id="map">
+                🗺️
+                <div class="map-marker active" data-location="1"></div>
+                <div class="map-marker" data-location="2"></div>
+                <div class="map-marker" data-location="3"></div>
+                <div class="map-marker" data-location="4"></div>
+                <div class="map-marker" data-location="5"></div>
+                <div class="map-marker" data-location="6"></div>
+                <div class="map-marker" data-location="7"></div>
+                <div class="map-marker" data-location="8"></div>
+            </div>
+            
+            <!-- Информационная панель -->
+            <div class="location-info active" id="locationInfo">
+                <div class="location-info-header">
+                    <div>
+                        <div class="location-info-title">ТЦ "Европа"</div>
+                        <div class="location-info-address">ул. Ленина, 45 • 0.8 км от вас</div>
+                    </div>
+                    <button class="location-info-close" onclick="closeLocationInfo()">×</button>
+                </div>
+                
+                <div class="location-info-services">
+                    <div class="location-info-services-title">Доступные услуги</div>
+                    <div class="location-info-services-list">
+                        <span class="location-info-service">Прачечная</span>
+                        <span class="location-info-service">Химчистка</span>
+                        <span class="location-info-service">Глажка</span>
+                    </div>
+                </div>
+                
+                <div class="location-info-hours">
+                    <div class="location-info-hours-title">Часы работы</div>
+                    <div class="location-info-hours-text">Ежедневно 8:00 - 22:00<br><span style="color: #28a745;">Открыто до 22:00</span></div>
+                </div>
+                
+                <div class="location-info-actions">
+                    <a href="cabinet.html" class="btn btn-primary">Заказать</a>
+                    <button class="btn btn-ghost btn-small" onclick="buildRoute()">Маршрут</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Управление мобильным меню
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // Эффект скролла для хедера
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Данные о локациях
+        const locations = {
+            1: {
+                name: 'ТЦ "Европа"',
+                address: 'ул. Ленина, 45',
+                distance: '0.8 км от вас',
+                services: ['Прачечная', 'Химчистка', 'Глажка'],
+                hours: 'Ежедневно 8:00 - 22:00',
+                status: 'Открыто до 22:00',
+                type: 'mall'
+            },
+            2: {
+                name: 'БЦ "Технопарк"',
+                address: 'ул. Кутузова, 32',
+                distance: '1.2 км от вас',
+                services: ['Прачечная', 'Глажка'],
+                hours: 'Круглосуточно',
+                status: 'Открыто круглосуточно',
+                type: 'office'
+            },
+            3: {
+                name: 'ЖК "Green Park"',
+                address: 'ул. Проспект Мира, 15',
+                distance: '1.5 км от вас',
+                services: ['Прачечная', 'Химчистка'],
+                hours: 'Ежедневно 8:00 - 21:00',
+                status: 'Открыто до 21:00',
+                type: 'residential'
+            },
+            4: {
+                name: 'Метро "Центральная"',
+                address: 'Вестибюль метро',
+                distance: '2.1 км от вас',
+                services: ['Прачечная', 'Химчистка', 'Глажка'],
+                hours: 'Ежедневно 6:00 - 23:30',
+                status: 'Открыто до 23:30',
+                type: 'metro'
+            },
+            5: {
+                name: 'ТЦ "Мега Сити"',
+                address: 'ул. Гагарина, 78',
+                distance: '2.8 км от вас',
+                services: ['Прачечная', 'Химчистка', 'Глажка', 'Деликатная стирка'],
+                hours: 'Ежедневно 10:00 - 22:00',
+                status: 'Открыто до 22:00',
+                type: 'mall'
+            },
+            6: {
+                name: 'БЦ "Сити Центр"',
+                address: 'ул. Московская, 123',
+                distance: '3.2 км от вас',
+                services: ['Прачечная', 'Химчистка'],
+                hours: 'Пн-Пт 8:00 - 20:00',
+                status: 'Закрыто до 8:00',
+                type: 'office'
+            }
+        };
+
+        // Управление активными элементами
+        function setActiveLocation(locationId) {
+            // Убрать активный класс у всех элементов
+            document.querySelectorAll('.location-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll('.map-marker').forEach(marker => {
+                marker.classList.remove('active');
+            });
+
+            // Добавить активный класс к выбранным элементам
+            const locationItem = document.querySelector(`[data-id="${locationId}"]`);
+            const mapMarker = document.querySelector(`[data-location="${locationId}"]`);
+            
+            if (locationItem) locationItem.classList.add('active');
+            if (mapMarker) mapMarker.classList.add('active');
+
+            // Обновить информационную панель
+            updateLocationInfo(locationId);
+        }
+
+        // Обновление информационной панели
+        function updateLocationInfo(locationId) {
+            const location = locations[locationId];
+            if (!location) return;
+
+            const infoPanel = document.getElementById('locationInfo');
+            const statusClass = location.status.includes('Закрыто') ? 'color: #dc3545' : 'color: #28a745';
+
+            infoPanel.innerHTML = `
+                <div class="location-info-header">
+                    <div>
+                        <div class="location-info-title">${location.name}</div>
+                        <div class="location-info-address">${location.address} • ${location.distance}</div>
+                    </div>
+                    <button class="location-info-close" onclick="closeLocationInfo()">×</button>
+                </div>
+                
+                <div class="location-info-services">
+                    <div class="location-info-services-title">Доступные услуги</div>
+                    <div class="location-info-services-list">
+                        ${location.services.map(service => `<span class="location-info-service">${service}</span>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="location-info-hours">
+                    <div class="location-info-hours-title">Часы работы</div>
+                    <div class="location-info-hours-text">${location.hours}<br><span style="${statusClass}">${location.status}</span></div>
+                </div>
+                
+                <div class="location-info-actions">
+                    <a href="cabinet.html" class="btn btn-primary">Заказать</a>
+                    <button class="btn btn-ghost btn-small" onclick="buildRoute()">Маршрут</button>
+                </div>
+            `;
+
+            infoPanel.classList.add('active');
+        }
+
+        // Закрытие информационной панели
+        function closeLocationInfo() {
+            document.getElementById('locationInfo').classList.remove('active');
+        }
+
+        // Построение маршрута
+        function buildRoute() {
+            alert('Открывается приложение карт для построения маршрута...');
+        }
+
+        // Обработчики кликов
+        document.addEventListener('click', (e) => {
+            // Клик по элементу списка
+            if (e.target.closest('.location-item')) {
+                const locationId = e.target.closest('.location-item').dataset.id;
+                setActiveLocation(locationId);
+            }
+
+            // Клик по маркеру на карте
+            if (e.target.closest('.map-marker')) {
+                const locationId = e.target.closest('.map-marker').dataset.location;
+                setActiveLocation(locationId);
+            }
+        });
+
+        // Фильтрация
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                const group = tag.parentElement;
+                const isServiceFilter = tag.hasAttribute('data-service');
+                
+                // Убрать активный класс у других тегов в группе
+                group.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                // Добавить активный класс к нажатому тегу
+                tag.classList.add('active');
+                
+                filterLocations();
+            });
+        });
+
+        function filterLocations() {
+            const typeFilter = document.querySelector('.filter-tag[data-filter].active').dataset.filter;
+            const serviceFilter = document.querySelector('.filter-tag[data-service].active').dataset.service;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            document.querySelectorAll('.location-item').forEach(item => {
+                const locationId = item.dataset.id;
+                const location = locations[locationId];
+                const itemType = item.dataset.type;
+                
+                let show = true;
+
+                // Фильтр по типу
+                if (typeFilter !== 'all' && itemType !== typeFilter) {
+                    show = false;
+                }
+
+                // Фильтр по услугам
+                if (serviceFilter !== 'all') {
+                    const serviceMap = {
+                        'laundry': 'Прачечная',
+                        'dry-cleaning': 'Химчистка',
+                        'ironing': 'Глажка'
+                    };
+                    if (!location.services.includes(serviceMap[serviceFilter])) {
+                        show = false;
+                    }
+                }
+
+                // Поиск по тексту
+                if (searchTerm) {
+                    const searchText = (location.name + ' ' + location.address).toLowerCase();
+                    if (!searchText.includes(searchTerm)) {
+                        show = false;
+                    }
+                }
+
+                item.style.display = show ? 'block' : 'none';
+                
+                // Скрыть/показать маркер на карте
+                const marker = document.querySelector(`[data-location="${locationId}"]`);
+                if (marker) {
+                    marker.style.display = show ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Поиск
+        document.getElementById('searchInput').addEventListener('input', filterLocations);
+
+        // Геолокация
+        document.querySelector('.current-location').addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        alert(`Ваше местоположение: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
+                    },
+                    (error) => {
+                        alert('Не удалось определить местоположение');
+                    }
+                );
+            } else {
+                alert('Геолокация не поддерживается вашим браузером');
+            }
+        });
+
+        // Инициализация - показать первую локацию
+        updateLocationInfo(1);
+    </script>
+</body>
+</html>

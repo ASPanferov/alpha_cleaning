@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CleanBox - Прачечная нового поколения</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f7;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mockup-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .phone {
+            width: 280px;
+            height: 580px;
+            background: #000;
+            border-radius: 30px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fff;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: #000;
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
+        }
+
+        .content {
+            padding: 20px;
+            height: calc(100% - 44px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .main-action {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-scanner {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #000;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            background: #f8f8f8;
+        }
+
+        .qr-corners {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #007AFF;
+        }
+
+        .qr-corner.top-left {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .qr-corner.top-right {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .qr-corner.bottom-left {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .qr-corner.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .scan-text {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .scan-subtitle {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            max-width: 240px;
+        }
+
+        .button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+
+        .button:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            background: #f5f5f7;
+            color: #000;
+            border: 1px solid #e1e1e1;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .service-card {
+            background: #f8f8f8;
+            border: 1px solid #e1e1e1;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .service-card.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .service-card:hover:not(.active) {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .service-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f8f8f8;
+        }
+
+        .counter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8f8f8;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+
+        .counter-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #000;
+            color: white;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-value {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .order-summary {
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-row.total {
+            font-weight: 600;
+            font-size: 18px;
+            padding-top: 8px;
+            border-top: 1px solid #e1e1e1;
+            margin-top: 12px;
+        }
+
+        .location-selector {
+            background: #f8f8f8;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #f8f8f8;
+            border-radius: 12px;
+        }
+
+        .status-step.completed {
+            background: #000;
+            color: white;
+        }
+
+        .status-step.active {
+            background: #007AFF;
+            color: white;
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #666;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+
+        .status-step.completed .step-icon {
+            background: white;
+            color: #000;
+        }
+
+        .status-step.active .step-icon {
+            background: white;
+            color: #007AFF;
+        }
+
+        .screen-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #f8f8f8;
+            border-top: 1px solid #e1e1e1;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .tab-item.active {
+            color: #007AFF;
+        }
+
+        .tab-icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #FF3B30;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <!-- Главный экран -->
+        <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>●●●●●</span>
+                </div>
+                <div class="content">
+                    <div class="header">
+                        <div class="logo">CleanBox</div>
+                        <div class="subtitle">Прачечная нового поколения<br>Сдай в одном месте, забери в другом</div>
+                    </div>
+                    
+                    <div class="main-action">
+                        <div class="qr-scanner">
+                            <div class="qr-corners">
+                                <div class="qr-corner top-left"></div>
+                                <div class="qr-corner top-right"></div>
+                                <div class="qr-corner bottom-left"></div>
+                                <div class="qr-corner bottom-right"></div>
+                            </div>
+                            <div style="font-size: 40px;">📱</div>
+                        </div>
+                        <div class="scan-text">Найдите ближайший почтомат</div>
+                        <div class="scan-subtitle">Отсканируйте QR-код на почтомате для начала работы</div>
+                    </div>
+                    
+                    <button class="button">Сканировать QR-код</button>
+                    <button class="button secondary">Найти почтоматы</button>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item active">
+                        <div class="tab-icon">🏠</div>
+                        <div>Главная</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon">📍</div>
+                        <div>Карта</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon" style="position: relative;">
+                            📦
+                            <div class="notification-dot"></div>
+                        </div>
+                        <div>Заказы</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon">👤</div>
+                        <div>Профиль</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Выбор услуги -->
+        <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>●●●●●</span>
+                </div>
+                <button class="back-btn">← Назад</button>
+                <div class="content">
+                    <div class="screen-title">Выберите услугу</div>
+                    <div class="subtitle" style="text-align: center; margin-bottom: 30px;">Почтомат: БЦ "Сити Центр"</div>
+                    
+                    <div class="service-grid">
+                        <div class="service-card active">
+                            <div class="service-icon">👔</div>
+                            <div class="service-name">Прачечная</div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🧽</div>
+                            <div class="service-name">Химчистка</div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">👕</div>
+                            <div class="service-name">Глажка</div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">👗</div>
+                            <div class="service-name">Деликатная стирка</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label">Количество вещей</label>
+                        <div class="counter">
+                            <button class="counter-btn">−</button>
+                            <span class="counter-value">3</span>
+                            <button class="counter-btn">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="label">Место получения</label>
+                        <div class="location-selector">
+                            <span>Выберите точку выдачи</span>
+                            <span>›</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Стирка рубашек (3 шт.)</span>
+                            <span>600 ₽</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Доставка</span>
+                            <span>Бесплатно</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Итого</span>
+                            <span>600 ₽</span>
+                        </div>
+                    </div>
+                    
+                    <button class="button">Продолжить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Выбор места получения -->
+        <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>●●●●●</span>
+                </div>
+                <button class="back-btn">← Назад</button>
+                <div class="content">
+                    <div class="screen-title">Место получения</div>
+                    <div class="subtitle" style="text-align: center; margin-bottom: 30px;">Выберите удобную точку выдачи</div>
+                    
+                    <div style="flex: 1; overflow-y: auto;">
+                        <div class="service-card" style="margin-bottom: 12px; width: 100%; text-align: left; padding: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">ЖК "Green Park"</div>
+                                    <div style="color: #666; font-size: 12px;">ул. Проспект Мира, 15 • 0.8 км</div>
+                                    <div style="color: #007AFF; font-size: 12px;">Завтра к 18:00</div>
+                                </div>
+                                <input type="radio" name="location" style="width: 20px; height: 20px;">
+                            </div>
+                        </div>
+                        
+                        <div class="service-card active" style="margin-bottom: 12px; width: 100%; text-align: left; padding: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">БЦ "Технопарк"</div>
+                                    <div style="color: #ccc; font-size: 12px;">ул. Кутузова, 32 • 1.2 км</div>
+                                    <div style="color: #fff; font-size: 12px;">Завтра к 12:00</div>
+                                </div>
+                                <input type="radio" name="location" checked style="width: 20px; height: 20px;">
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" style="margin-bottom: 12px; width: 100%; text-align: left; padding: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">ТЦ "Европа"</div>
+                                    <div style="color: #666; font-size: 12px;">ул. Ленина, 45 • 2.1 км</div>
+                                    <div style="color: #007AFF; font-size: 12px;">Послезавтра к 14:00</div>
+                                </div>
+                                <input type="radio" name="location" style="width: 20px; height: 20px;">
+                            </div>
+                        </div>
+                        
+                        <div class="service-card" style="margin-bottom: 12px; width: 100%; text-align: left; padding: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600; margin-bottom: 4px;">Метро "Центральная"</div>
+                                    <div style="color: #666; font-size: 12px;">Вестибюль метро • 1.5 км</div>
+                                    <div style="color: #007AFF; font-size: 12px;">Завтра к 20:00</div>
+                                </div>
+                                <input type="radio" name="location" style="width: 20px; height: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="button">Подтвердить заказ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статус заказа -->
+        <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>●●●●●</span>
+                </div>
+                <div class="content">
+                    <div class="screen-title">Заказ #1247</div>
+                    <div class="subtitle" style="text-align: center; margin-bottom: 30px;">Прачечная • 3 рубашки</div>
+                    
+                    <div style="flex: 1;">
+                        <div class="status-step completed">
+                            <div class="step-icon">✓</div>
+                            <div>
+                                <div style="font-weight: 600;">Вещи сданы</div>
+                                <div style="font-size: 12px; opacity: 0.8;">БЦ "Сити Центр" • Сегодня в 10:30</div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-step completed">
+                            <div class="step-icon">✓</div>
+                            <div>
+                                <div style="font-weight: 600;">Забрано курьером</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Сегодня в 14:20</div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-step active">
+                            <div class="step-icon">⟳</div>
+                            <div>
+                                <div style="font-weight: 600;">Обработка в цехе</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Стирка и глажка</div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-step">
+                            <div class="step-icon">🚚</div>
+                            <div>
+                                <div style="font-weight: 600;">Доставка</div>
+                                <div style="font-size: 12px; opacity: 0.6;">БЦ "Технопарк"</div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-step">
+                            <div class="step-icon">📦</div>
+                            <div>
+                                <div style="font-weight: 600;">Готово к получению</div>
+                                <div style="font-size: 12px; opacity: 0.6;">Завтра к 12:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div style="text-align: center; margin-bottom: 16px;">
+                            <div style="font-size: 18px; font-weight: 600;">Время получения</div>
+                            <div style="font-size: 16px; color: #007AFF; font-weight: 600; margin-top: 4px;">Завтра к 12:00</div>
+                        </div>
+                        <div style="font-size: 14px; color: #666; text-align: center;">
+                            Мы отправим уведомление, когда заказ будет готов
+                        </div>
+                    </div>
+                    
+                    <button class="button secondary">Связаться с поддержкой</button>
+                </div>
+                
+                <div class="tab-bar">
+                    <div class="tab-item">
+                        <div class="tab-icon">🏠</div>
+                        <div>Главная</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon">📍</div>
+                        <div>Карта</div>
+                    </div>
+                    <div class="tab-item active">
+                        <div class="tab-icon">📦</div>
+                        <div>Заказы</div>
+                    </div>
+                    <div class="tab-item">
+                        <div class="tab-icon">👤</div>
+                        <div>Профиль</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

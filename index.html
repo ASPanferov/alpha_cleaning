@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Services - Сервис домашних услуг нового поколения</title>
+    <meta name="description" content="Alpha Services - многосервисная платформа домашних услуг. Прачечная, клининг, электрики, сантехники. Сдай в одном месте, забери в другом.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Цветовая палитра из дизайна */
+            --primary-cyan: #05d3fb;
+            --primary-dark: #1b4667;
+            --secondary-blue: #51849c;
+            --text-gray: #7c94a4;
+            --light-gray: #cdd1d2;
+            --dark-gray: #484848;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --surface-hover: #e9ecef;
+            
+            /* Градиенты */
+            --gradient-primary: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-blue) 100%);
+            --gradient-hero: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-dark) 70%);
+            
+            /* Тени */
+            --shadow-sm: 0 2px 4px rgba(27, 70, 103, 0.1);
+            --shadow-md: 0 4px 16px rgba(27, 70, 103, 0.15);
+            --shadow-lg: 0 8px 32px rgba(27, 70, 103, 0.2);
+            --shadow-xl: 0 16px 48px rgba(27, 70, 103, 0.25);
+            
+            /* Типографика */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Скругления */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Анимации */
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+            --transition-slow: 0.5s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Базовые утилиты */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container-wide {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .hidden { display: none !important; }
+        .visible { display: block !important; }
+
+        /* Типографика */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: var(--font-size-5xl); }
+        h2 { font-size: var(--font-size-4xl); }
+        h3 { font-size: var(--font-size-3xl); }
+        h4 { font-size: var(--font-size-2xl); }
+        h5 { font-size: var(--font-size-xl); }
+        h6 { font-size: var(--font-size-lg); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            font-size: var(--font-size-base);
+        }
+
+        .lead {
+            font-size: var(--font-size-lg);
+            font-weight: 400;
+            color: var(--text-gray);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 16px 32px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            line-height: 1;
+            min-height: 48px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: rgba(5, 211, 251, 0.1);
+            color: var(--primary-cyan);
+            border: 1px solid rgba(5, 211, 251, 0.2);
+        }
+
+        .btn-ghost:hover {
+            background: var(--primary-cyan);
+            color: white;
+        }
+
+        .btn-large {
+            padding: 20px 40px;
+            font-size: var(--font-size-lg);
+            min-height: 56px;
+        }
+
+        .btn-small {
+            padding: 12px 24px;
+            font-size: var(--font-size-sm);
+            min-height: 40px;
+        }
+
+        /* Хедер */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(27, 70, 103, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            min-height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 4px;
+            background: var(--primary-cyan);
+            border-radius: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .logo-text {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-cyan);
+        }
+
+        .nav-link.active {
+            color: var(--primary-dark);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid rgba(27, 70, 103, 0.1);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav {
+            padding: 2rem;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .mobile-nav-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Главная секция */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 120px 0 80px 0;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect fill="url(%23pattern)" width="100%" height="100%"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero .lead {
+            font-size: var(--font-size-xl);
+            margin-bottom: 3rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-3xl);
+            font-weight: 800;
+            color: white;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Секции */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: var(--font-size-4xl);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Услуги */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 1px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-cyan);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 2rem;
+        }
+
+        .service-title {
+            font-size: var(--font-size-xl);
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .service-description {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-price {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--primary-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Как это работает */
+        .how-it-works {
+            background: var(--surface);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: calc(100% - 30px);
+            width: calc(100% - 60px);
+            height: 2px;
+            background: var(--gradient-primary);
+            z-index: 1;
+        }
+
+        .step:last-child::after {
+            display: none;
+        }
+
+        .step-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .step-description {
+            color: var(--text-gray);
+        }
+
+        /* Преимущества */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem 0;
+        }
+
+        .benefit-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: rgba(5, 211, 251, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-cyan);
+        }
+
+        .benefit-content h4 {
+            font-size: var(--font-size-lg);
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA секция */
+        .cta {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+        }
+
+        /* Футер */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 0 1rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-cyan);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 100px 0 60px 0;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .step::after {
+                display: none;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 { font-size: var(--font-size-3xl); }
+            h2 { font-size: var(--font-size-2xl); }
+            h3 { font-size: var(--font-size-xl); }
+        }
+
+        @media (max-width: 480px) {
+            .container,
+            .container-wide {
+                padding: 0 16px;
+            }
+
+            .hero {
+                padding: 80px 0 40px 0;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Утилиты для скрытия элементов при загрузке */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">ALPHA SERVICES</span>
+                </a>
+                
+                <nav class="nav">
+                    <ul class="nav-links">
+                        <li><a href="#home" class="nav-link active">Главная</a></li>
+                        <li><a href="#services" class="nav-link">Услуги</a></li>
+                        <li><a href="#how-it-works" class="nav-link">Как это работает</a></li>
+                        <li><a href="#locations" class="nav-link">Пункты приема</a></li>
+                        <li><a href="#about" class="nav-link">О нас</a></li>
+                    </ul>
+                    
+                    <div class="nav-actions">
+                        <a href="#login" class="btn btn-ghost">Войти</a>
+                        <a href="#register" class="btn btn-primary">Заказать</a>
+                    </div>
+                </nav>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    ☰
+                </button>
+            </div>
+        </div>
+        
+        <!-- Мобильное меню -->
+        <div class="mobile-menu" id="mobile-menu">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav-links">
+                    <li><a href="#home" class="mobile-nav-link">Главная</a></li>
+                    <li><a href="#services" class="mobile-nav-link">Услуги</a></li>
+                    <li><a href="#how-it-works" class="mobile-nav-link">Как это работает</a></li>
+                    <li><a href="#locations" class="mobile-nav-link">Пункты приема</a></li>
+                    <li><a href="#about" class="mobile-nav-link">О нас</a></li>
+                </ul>
+                
+                <div class="mobile-nav-actions">
+                    <a href="#login" class="btn btn-ghost">Войти</a>
+                    <a href="#register" class="btn btn-primary">Заказать</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главная секция -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-element">
+                <h1>Сервисы для дома нового поколения</h1>
+                <p class="lead">Многосервисная платформа домашних услуг через сеть умных почтоматов. Начинаем с прачечной - сдай в одном месте, забери в другом.</p>
+                
+                <div class="hero-actions">
+                    <a href="#services" class="btn btn-primary btn-large">
+                        📱 Заказать через QR
+                    </a>
+                    <a href="#locations" class="btn btn-secondary btn-large">
+                        🗺️ Найти пункты
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Умных почтоматов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Круглосуточно</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Платформа для всех услуг</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Видов сервисов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" class="section">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Доступные услуги</h2>
+                <p class="section-subtitle">Многосервисная платформа домашних услуг. Начинаем с прачечной, планируем расширение.</p>
+            </div>
+            
+            <!-- Активные услуги -->
+            <div style="margin-bottom: 3rem;">
+                <h3 style="text-align: center; color: var(--primary-cyan); margin-bottom: 2rem; font-size: var(--font-size-xl);">🚀 Доступно сейчас</h3>
+                <div class="services-grid">
+                    <div class="service-card fade-in-element">
+                        <div class="service-icon">👔</div>
+                        <h3 class="service-title">Прачечная</h3>
+                        <p class="service-description">Стирка повседневной одежды, постельного белья, полотенец и других текстильных изделий.</p>
+                        <div class="service-price">от 150 ₽</div>
+                        <a href="services.html" class="btn btn-primary">Заказать</a>
+                    </div>
+                    
+                    <div class="service-card fade-in-element">
+                        <div class="service-icon">🧽</div>
+                        <h3 class="service-title">Химчистка</h3>
+                        <p class="service-description">Профессиональная чистка деликатных тканей, костюмов, пальто и верхней одежды.</p>
+                        <div class="service-price">от 350 ₽</div>
+                        <a href="services.html" class="btn btn-primary">Заказать</a>
+                    </div>
+                    
+                    <div class="service-card fade-in-element">
+                        <div class="service-icon">👕</div>
+                        <h3 class="service-title">Глажка</h3>
+                        <p class="service-description">Профессиональная глажка рубашек, брюк, платьев и другой одежды.</p>
+                        <div class="service-price">от 100 ₽</div>
+                        <a href="services.html" class="btn btn-primary">Заказать</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Планируемые услуги -->
+            <div>
+                <h3 style="text-align: center; color: var(--text-gray); margin-bottom: 2rem; font-size: var(--font-size-xl);">🔄 Скоро будет доступно</h3>
+                <div class="services-grid">
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">🔧</div>
+                        <h3 class="service-title">Сантехник</h3>
+                        <p class="service-description">Ремонт и установка сантехники, устранение протечек, замена смесителей.</p>
+                        <div class="service-price">от 800 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                    
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">⚡</div>
+                        <h3 class="service-title">Электрик</h3>
+                        <p class="service-description">Электромонтажные работы, ремонт проводки, установка розеток и выключателей.</p>
+                        <div class="service-price">от 600 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                    
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">🏠</div>
+                        <h3 class="service-title">Клининг</h3>
+                        <p class="service-description">Профессиональная уборка квартир, домов и офисов. Генеральная и поддерживающая уборка.</p>
+                        <div class="service-price">от 1500 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                    
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">🔨</div>
+                        <h3 class="service-title">Плотник</h3>
+                        <p class="service-description">Мелкий ремонт мебели, установка полок, сборка мебели, столярные работы.</p>
+                        <div class="service-price">от 700 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                    
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">🎨</div>
+                        <h3 class="service-title">Маляр</h3>
+                        <p class="service-description">Покрасочные работы, поклейка обоев, декоративная отделка стен.</p>
+                        <div class="service-price">от 500 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                    
+                    <div class="service-card fade-in-element" style="opacity: 0.7; position: relative;">
+                        <div class="service-icon">🚗</div>
+                        <h3 class="service-title">Автосервис</h3>
+                        <p class="service-description">Мойка и химчистка автомобилей, мелкий ремонт, замена расходников.</p>
+                        <div class="service-price">от 1200 ₽</div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: var(--primary-cyan); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">Скоро</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Технология почтоматов -->
+    <section class="section" style="background: var(--gradient-primary); color: white;">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title" style="color: white;">Умные почтоматы Alpha Services</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Инновационная сеть автоматических пунктов приема и выдачи - как Power Bank, но для домашних услуг</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(10px);" class="fade-in-element">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">QR-код система</h3>
+                    <p style="color: rgba(255,255,255,0.9);">Просто отсканируйте QR-код на любом почтомате, выберите услугу и количество - система автоматически откроет нужную ячейку</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(10px);" class="fade-in-element">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Гибкая логистика</h3>
+                    <p style="color: rgba(255,255,255,0.9);">Сдай вещи в ЖК, забери в бизнес-центре. Или наоборот - система сама все доставит курьерами между точками</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: var(--radius-lg); backdrop-filter: blur(10px);" class="fade-in-element">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Везде где удобно</h3>
+                    <p style="color: rgba(255,255,255,0.9);">Торговые центры, бизнес-центры, жилые комплексы, станции метро - более 50 точек по всему городу</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <p style="font-size: var(--font-size-lg); margin-bottom: 2rem; color: rgba(255,255,255,0.9);">🚀 <strong>Будущее сервисов уже здесь</strong> - одна сеть для всех домашних услуг</p>
+                <a href="#locations" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3);">Посмотреть все точки</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как это работает -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Как это работает</h2>
+                <p class="section-subtitle">Простой и удобный процесс - всего 4 шага до идеально чистой одежды</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step fade-in-element">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Сканируете QR-код</h3>
+                    <p class="step-description">Подойдите к любому почтомату Alpha Services и отсканируйте QR-код на экране</p>
+                </div>
+                
+                <div class="step fade-in-element">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Выбираете услугу и ячейку</h3>
+                    <p class="step-description">Укажите тип услуги, количество вещей - система автоматически откроет подходящую ячейку</p>
+                </div>
+                
+                <div class="step fade-in-element">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Указываете место получения</h3>
+                    <p class="step-description">Выберите любой удобный почтомат для получения - курьеры доставят туда готовые вещи</p>
+                </div>
+                
+                <div class="step fade-in-element">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Получаете уведомление</h3>
+                    <p class="step-description">Когда заказ готов, приходите к выбранному почтомату и забирайте по QR-коду</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header fade-in-element">
+                <h2 class="section-title">Почему выбирают нас</h2>
+                <p class="section-subtitle">Современные технологии и индивидуальный подход к каждому клиенту</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-content">
+                        <h4>Быстро и удобно</h4>
+                        <p>Сеть пунктов приема по всему городу. Сдай в одном месте - забери в другом.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">🔬</div>
+                    <div class="benefit-content">
+                        <h4>Профессиональное качество</h4>
+                        <p>Современное оборудование и проверенные технологии очистки.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">🌱</div>
+                    <div class="benefit-content">
+                        <h4>Экологично</h4>
+                        <p>Используем только безопасные и экологичные моющие средства.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-content">
+                        <h4>Выгодные цены</h4>
+                        <p>Честные цены без скрытых комиссий. Система скидок для постоянных клиентов.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">📱</div>
+                    <div class="benefit-content">
+                        <h4>Контроль через приложение</h4>
+                        <p>Отслеживайте статус заказа в реальном времени через мобильное приложение.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit fade-in-element">
+                    <div class="benefit-icon">🔒</div>
+                    <div class="benefit-content">
+                        <h4>Безопасность вещей</h4>
+                        <p>Каждая вещь маркируется, застрахована и отслеживается на всех этапах.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA секция -->
+    <section class="section cta">
+        <div class="container">
+            <div class="fade-in-element text-center">
+                <h2>Готовы попробовать?</h2>
+                <p>Присоединяйтесь к тысячам довольных клиентов Alpha Cleaning</p>
+                <div class="hero-actions">
+                    <a href="#services" class="btn btn-secondary btn-large">
+                        🚀 Сделать первый заказ
+                    </a>
+                    <a href="#locations" class="btn btn-outline btn-large" style="color: white; border-color: white;">
+                        📍 Найти пункты приема
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Alpha Cleaning</h4>
+                    <p>Современная сеть прачечных с удобной системой приема и выдачи через почтоматы.</p>
+                    <p>© 2024 Alpha Cleaning. Все права защищены.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Услуги</h4>
+                    <a href="#services">Прачечная</a>
+                    <a href="#services">Химчистка</a>
+                    <a href="#services">Глажка</a>
+                    <a href="#services">Деликатная стирка</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Информация</h4>
+                    <a href="#about">О компании</a>
+                    <a href="#locations">Пункты приема</a>
+                    <a href="#support">Поддержка</a>
+                    <a href="#privacy">Политика конфиденциальности</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>📞 8 (800) 555-35-35</p>
+                    <p>📧 info@alphacleaning.ru</p>
+                    <p>📍 Москва, ул. Примерная, 123</p>
+                    <p>⏰ Круглосуточно</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Сделано с ❤️ для удобства наших клиентов</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Управление мобильным меню
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Закрытие мобильного меню при клике на ссылку
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // Эффект скролла для хедера
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Плавная прокрутка к разделам
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Активная ссылка в навигации
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+
+        function updateActiveLink() {
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop <= 100) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveLink);
+
+        // Анимация появления элементов при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдение за всеми элементами с классом fade-in-element
+        document.querySelectorAll('.fade-in-element').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Инициализация
+        updateActiveLink();
+    </script>
+</body>
+</html>
